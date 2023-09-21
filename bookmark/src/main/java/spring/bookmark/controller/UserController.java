@@ -1,7 +1,5 @@
 package spring.bookmark.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,7 @@ public class UserController {
         // 모델에 사용자 목록 추가
         model.addAttribute("userList", userList);
 
-        // user/list.html 페이지로 이동
+        // user/boardList.html 페이지로 이동
         return "user/list";
     }
 

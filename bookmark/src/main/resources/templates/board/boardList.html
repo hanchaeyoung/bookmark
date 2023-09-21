@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board List</title>
+</head>
+<body>
+<!-- HEADER -->
+<div th:insert="common/header.html" id="header"></div>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>재고</th>
+        <th>가격</th>
+        <th>작성자</th>
+        <th>사진</th>
+    </tr>
+
+    <th:block th:each="board : ${boardList}">
+        <tr>
+            <td th:text="${board.book_id}"></td>
+            <td th:text="${board.book_name}"></td>
+            <td th:text="${board.book_intro}" width="1000"></td>
+            <td th:text="${board.stock}"></td>
+            <td th:text="${board.price}"></td>
+            <td th:text="${board.id}"></td>
+            <td>
+                <img th:src="${board.photo}" alt="책 사진" height="200">
+            </td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
