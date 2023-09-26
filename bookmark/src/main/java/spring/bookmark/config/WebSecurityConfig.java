@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import spring.bookmark.dto.BookDto;
 
 @Configuration
 @EnableWebSecurity
@@ -16,7 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/user/add", "/user/add-save", "/css/**", "/js/**", "/bootstrap-5.3.0-alpha3-dist/**").permitAll()
+                .antMatchers("/", "/login", "/user/add", "/user/add-save", "/board/post/{no}", "/css/**", "/js/**", "/bootstrap-5.3.0-alpha3-dist/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -36,5 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public BookDto bookDto() {
+        return new BookDto();
     }
 }

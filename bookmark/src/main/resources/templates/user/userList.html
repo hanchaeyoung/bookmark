@@ -10,13 +10,12 @@
 <div th:insert="common/header.html" id="header"></div>
 <table>
     <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Address</th>
-        <th>Email</th>
-        <!-- 기타 사용자 정보 필드 추가 -->
+        <th>아이디</th>
+        <th>이름</th>
+        <th>주소</th>
+        <th>이메일</th>
     </tr>
-    <!-- 사용자 목록을 반복하여 표시 -->
+
     <th:block th:each="user : ${userList}">
         <tr>
             <td th:text="${user.id}"></td>

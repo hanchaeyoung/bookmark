@@ -3,6 +3,7 @@ package spring.bookmark.dto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.stereotype.Component;
 import spring.bookmark.entity.BookEntity;
 
 import javax.persistence.*;
@@ -36,7 +37,6 @@ public class BookDto {
     @Column(nullable = false)
     private String id;
 
-    @Column(nullable = false)
     private String photo;
 
     @CreatedDate
@@ -70,6 +70,16 @@ public class BookDto {
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
     }
+
+    public BookDto(String book_name, String book_intro, int stock, int price, String id, String photo) {
+        this.book_name = book_name;
+        this.id = id;
+        this.stock = stock;
+        this.price = price;
+        this.book_intro = book_intro;
+        this.photo = photo;
+    }
+
 
     public static BookDto build(BookEntity entity) {
         return BookDto.builder()

@@ -12,23 +12,21 @@
     <tr>
         <th>ID</th>
         <th>제목</th>
-        <th>내용</th>
         <th>재고</th>
         <th>가격</th>
         <th>작성자</th>
         <th>사진</th>
     </tr>
 
-    <th:block th:each="board : ${boardList}">
+    <th:block th:each="book : ${bookList}">
         <tr>
-            <td th:text="${board.book_id}"></td>
-            <td th:text="${board.book_name}"></td>
-            <td th:text="${board.book_intro}" width="1000"></td>
-            <td th:text="${board.stock}"></td>
-            <td th:text="${board.price}"></td>
-            <td th:text="${board.id}"></td>
+            <td th:text="${book.book_id}"></td>
+            <td><a th:href="@{'/board/post/' + ${book.book_id}}"><span th:text="${book.book_name}"></span></a></td>
+            <td th:text="${book.stock}"></td>
+            <td th:text="${book.price}"></td>
+            <td th:text="${book.id}"></td>
             <td>
-                <img th:src="${board.photo}" alt="책 사진" height="200">
+                <img th:src="@{/board/post/{photo}(photo=${book.photo})}" alt="Book Photo">
             </td>
         </tr>
     </th:block>

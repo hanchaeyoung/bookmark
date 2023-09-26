@@ -32,7 +32,7 @@ public class UserController {
         // 모델에 사용자 목록 추가
         model.addAttribute("userList", userList);
 
-        // user/boardList.html 페이지로 이동
+        // user/bookList.html 페이지로 이동
         return "user/list";
     }
 

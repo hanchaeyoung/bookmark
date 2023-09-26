@@ -1,8 +1,12 @@
 package spring.bookmark.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "book_entity")
@@ -29,8 +33,13 @@ public class BookEntity extends TimeEntity {
     @Column(nullable = false)
     private String id;
 
-    @Column(nullable = false)
     private String photo;
+
+    @CreatedDate
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime modifiedDate;
 
     @Builder
     public BookEntity(Long book_id, String book_name, String book_intro, int stock, int price, String id, String photo) {
