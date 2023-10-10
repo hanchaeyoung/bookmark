@@ -2,7 +2,6 @@ package spring.bookmark.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,7 +18,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/user/add", "/user/add-save", "/board/post/{no}", "/css/**", "/js/**", "/bootstrap-5.3.0-alpha3-dist/**").permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .and()

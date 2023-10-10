@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -46,15 +46,24 @@
         </tr>
 
         <tr>
+            <td colspan="2" style="color: #7D7D7D;">재고 : <span th:text="${bookDto.stock} + '권'"></span></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="color: #7D7D7D;">가격 : <span th:text="${#numbers.formatInteger(bookDto.price, 3, 'DEFAULT')} + '원'"></span></td>
+        </tr>
+
+        <tr sec:authorize="hasRole('ROLE_USER')">
+            <td><input type="number"></td>
+            <td colspan="2" style="color: #7D7D7D;"><button>장바구니에 담기</button></td>
+        </tr>
+
+        <tr>
             <td colspan="2" style="height: 30px"></td>
         </tr>
 
         <tr>
             <td colspan="2" class="content-cell"><span th:text="${bookDto.book_intro}"></span></td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="height: 30px"></td>
         </tr>
     </table>
 </div>

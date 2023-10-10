@@ -14,7 +14,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     private UserService userService;
 
-    // private BoardRepository boardRepository;
     private UserRepository userRepository;
 
     @Autowired

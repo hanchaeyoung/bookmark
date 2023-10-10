@@ -62,7 +62,7 @@ public class UserService {
         }
     }
 
-    // 모든 사용자 목록을 가져오는 메서드
+    /* 모든 사용자 목록을 가져오는 메서드 */
     public List<User> getAllUsers() {
         List<UserEntity> userEntities = userRepository.findAll();
         return User.buildList(userEntities);

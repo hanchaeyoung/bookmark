@@ -11,7 +11,6 @@
 <div style="margin: 100px;">
     <table>
         <tr>
-            <th>ID</th>
             <th>제목</th>
             <th>재고</th>
             <th>가격</th>
@@ -21,7 +20,6 @@
 
         <th:block th:each="book : ${bookList}">
             <tr>
-                <td th:text="${book.book_id}"></td>
                 <td><a th:href="@{'/board/post/' + ${book.book_id}}"><span th:text="${book.book_name}"></span></a></td>
                 <td th:text="${book.stock}"></td>
                 <td th:text="${book.price}"></td>
@@ -43,7 +41,8 @@
                 </td>
 
                 <td sec:authorize="hasRole('ROLE_USER')">
-                    <button>구매</button>
+                    <input type="number">
+                    <button>장바구니에 담기</button>
                 </td>
             </tr>
         </th:block>
