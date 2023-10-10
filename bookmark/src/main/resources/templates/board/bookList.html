@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,28 +8,46 @@
 <body>
 <!-- HEADER -->
 <div th:insert="common/header.html" id="header"></div>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>제목</th>
-        <th>재고</th>
-        <th>가격</th>
-        <th>작성자</th>
-        <th>사진</th>
-    </tr>
-
-    <th:block th:each="book : ${bookList}">
+<div style="margin: 100px;">
+    <table>
         <tr>
-            <td th:text="${book.book_id}"></td>
-            <td><a th:href="@{'/board/post/' + ${book.book_id}}"><span th:text="${book.book_name}"></span></a></td>
-            <td th:text="${book.stock}"></td>
-            <td th:text="${book.price}"></td>
-            <td th:text="${book.id}"></td>
-            <td>
-                <img th:src="@{/board/post/{photo}(photo=${book.photo})}" alt="Book Photo">
-            </td>
+            <th>ID</th>
+            <th>제목</th>
+            <th>재고</th>
+            <th>가격</th>
+            <th>작성자</th>
+            <th>사진</th>
         </tr>
-    </th:block>
-</table>
+
+        <th:block th:each="book : ${bookList}">
+            <tr>
+                <td th:text="${book.book_id}"></td>
+                <td><a th:href="@{'/board/post/' + ${book.book_id}}"><span th:text="${book.book_name}"></span></a></td>
+                <td th:text="${book.stock}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.id}"></td>
+                <td>
+<!--                    <img th:src="@{/board/post/{photo}(photo=${book.photo})}" alt="Book Photo">-->
+                    <img th:src="@{'/' + ${book.photo}}" alt="Book Photo">
+                </td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{'/board/post/edit/' + ${book.book_id}}">
+                        <button class="btn btn-default" style="background-color: black; color: white; flex: 1;">수정</button>
+                    </a>
+                </td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form id="delete" th:action="@{'/board/post/' + ${book.book_id}}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button id="delete-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">삭제</button>
+                    </form>
+                </td>
+
+                <td sec:authorize="hasRole('ROLE_USER')">
+                    <button>구매</button>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
 </body>
 </html>

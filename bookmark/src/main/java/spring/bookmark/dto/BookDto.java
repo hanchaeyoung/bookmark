@@ -3,7 +3,6 @@ package spring.bookmark.dto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.stereotype.Component;
 import spring.bookmark.entity.BookEntity;
 
 import javax.persistence.*;

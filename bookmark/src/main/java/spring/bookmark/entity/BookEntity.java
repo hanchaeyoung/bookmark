@@ -33,6 +33,7 @@ public class BookEntity extends TimeEntity {
     @Column(nullable = false)
     private String id;
 
+    @Column
     private String photo;
 
     @CreatedDate

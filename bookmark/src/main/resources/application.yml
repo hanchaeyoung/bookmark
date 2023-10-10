@@ -20,6 +20,9 @@ spring:
       format_sql: true
       ddl-auto: update
 
+upload:
+  dir: classpath:/uploads/
+
 logging:
   level:
     org:
