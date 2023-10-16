@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- HEADER -->
+<div th:insert="common/header.html" id="header"></div>
+<div id="wrap" style="margin: 100px;">
+    <h2>장바구니</h2>
+    <table>
+        <tr>
+            <th>상품 이름</th>
+            <th>수량</th>
+            <th>가격</th>
+            <th>합계</th>
+            <th>삭제</th>
+        </tr>
+
+        <tr th:each="cartItem : ${cartItems}">
+            <td th:text="${cartItem.book.book_name}"></td>
+            <td th:text="${#numbers.formatInteger(cartItem.quantity, 3, 'DEFAULT')}"></td>
+            <td th:text="${#numbers.formatInteger(cartItem.book.price, 3, 'DEFAULT')} + '원'"></td>
+            <td th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.price, 3, 'DEFAULT')} + '원'"></td>
+            <td>
+                <form th:action="@{'/cart/remove/' + ${cartItem.cartId}}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button>삭제</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <h3>총 합계 : 원</h3>
+    <a th:href="@{'/cart/checkout'}">주문하기</a>
+</div>
+</body>
+</html>

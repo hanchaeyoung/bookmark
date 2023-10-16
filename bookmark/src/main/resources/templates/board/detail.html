@@ -53,10 +53,12 @@
             <td colspan="2" style="color: #7D7D7D;">가격 : <span th:text="${#numbers.formatInteger(bookDto.price, 3, 'DEFAULT')} + '원'"></span></td>
         </tr>
 
-        <tr sec:authorize="hasRole('ROLE_USER')">
-            <td><input type="number"></td>
-            <td colspan="2" style="color: #7D7D7D;"><button>장바구니에 담기</button></td>
-        </tr>
+<!--        <td sec:authorize="hasRole('ROLE_USER')">-->
+<!--            <form id="cart-add" th:action="@{'/cart/' + ${bookId}}" method="post">-->
+<!--                <input type="number" name="quantity" min="1" value="1" />-->
+<!--                <button onclick="addToCart(${bookId})" id="cart-add-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">장바구니에 담기</button>-->
+<!--            </form>-->
+<!--        </td>-->
 
         <tr>
             <td colspan="2" style="height: 30px"></td>
@@ -78,4 +80,39 @@
 <!-- script -->
 <script th:inline="javascript" th:src="@{/js/board.js}"></script>
 </body>
+<script>
+    function addToCart(bookId) {
+        if (bookId == null) {
+            // bookId가 null이거나 유효하지 않은 경우 처리
+            alert('유효하지 않은 책 ID입니다.');
+            return;
+        }
+
+        var quantity = document.getElementById("quantityInput_" + bookId).value;
+
+        // 서버로 장바구니에 담을 책의 book_id와 수량(quantity)을 전송
+        var data = {
+            bookId: bookId,
+            quantity: quantity
+        };
+
+        // AJAX를 사용하여 서버로 데이터를 전송
+        fetch('/cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                // 장바구니에 성공적으로 담겼을 때 수행할 작업을 추가
+                alert('장바구니에 성공적으로 담겼습니다.');
+            } else {
+                // 오류 처리
+                alert('장바구니에 담기 실패');
+            }
+        });
+    }
+</script>
 </html>
