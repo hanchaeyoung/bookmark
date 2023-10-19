@@ -20,7 +20,8 @@
 
         <tr th:each="cartItem : ${cartItems}">
             <td th:text="${cartItem.book.book_name}"></td>
-            <td th:text="${#numbers.formatInteger(cartItem.quantity, 3, 'DEFAULT')}"></td>
+<!--            <td th:text="${#numbers.formatInteger(cartItem.quantity, 3, 'DEFAULT')}"></td>-->
+            <td th:text="${cartItem.quantity} + 권"></td>
             <td th:text="${#numbers.formatInteger(cartItem.book.price, 3, 'DEFAULT')} + '원'"></td>
             <td th:text="${#numbers.formatInteger(cartItem.quantity * cartItem.book.price, 3, 'DEFAULT')} + '원'"></td>
             <td>

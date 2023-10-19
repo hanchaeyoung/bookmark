@@ -96,6 +96,7 @@
                 <li><p sec:authorize="isAnonymous()"><a th:href="@{/login}" class="link">로그인&nbsp&nbsp</a></p></li>
                 <li><p sec:authorize="isAnonymous()"><a th:href="@{/user/add}" class="link">회원가입&nbsp&nbsp</a></p></li>
                 <li><p sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/board/post}" class="link">글쓰기&nbsp&nbsp</a></p></li>
+<!--                <li><p sec:authorize="hasRole('ROLE_USER')"><a th:href="@{'/order/checkout'}" class="link">주문내역&nbsp&nbsp</a></p></li>-->
                 <li><p sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/cart/}" class="link">장바구니&nbsp&nbsp</a></p></li>
                 <li><p sec:authorize="isAuthenticated()"><a th:href="@{/logout}" class="link">로그아웃&nbsp&nbsp</a></p></li>
             </ul>

@@ -60,6 +60,13 @@
 <!--            </form>-->
 <!--        </td>-->
 
+        <td sec:authorize="hasRole('ROLE_USER')">
+            <form id="cart-add" th:action="@{'/cart/' + ${bookDto.book_id}}" method="post">
+                <input type="number" name="quantity" min="1" value="1" style="width: 50px;" />
+                <button onclick="openPopup()" id="cart-add-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">장바구니에 담기</button>
+            </form>
+        </td>
+
         <tr>
             <td colspan="2" style="height: 30px"></td>
         </tr>
@@ -69,50 +76,51 @@
         </tr>
     </table>
 </div>
-
-<!-- 변수 셋팅 -->
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var boardDto = /*[[${boardDto}]]*/ "";
-    /*]]>*/
-</script>
-
-<!-- script -->
-<script th:inline="javascript" th:src="@{/js/board.js}"></script>
+<div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; text-align: center; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+    <p>장바구니에 담겼습니다.</p>
+    <button onclick="closePopupAndNavigateToCart()">장바구니로 이동</button>
+    <button onclick="closePopup()">계속 쇼핑하기</button>
+</div>
 </body>
 <script>
-    function addToCart(bookId) {
-        if (bookId == null) {
-            // bookId가 null이거나 유효하지 않은 경우 처리
-            alert('유효하지 않은 책 ID입니다.');
-            return;
-        }
+    function openPopup() {
+        document.getElementById('popup').style.display = 'block';
+        setPopupCookie(true); // 팝업 열림 상태를 쿠키에 저장
+    }
 
-        var quantity = document.getElementById("quantityInput_" + bookId).value;
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+        setPopupCookie(false); // 팝업 닫힘 상태를 쿠키에 저장
+    }
 
-        // 서버로 장바구니에 담을 책의 book_id와 수량(quantity)을 전송
-        var data = {
-            bookId: bookId,
-            quantity: quantity
-        };
+    function closePopupAndNavigateToCart() {
+        closePopup(); // 팝업을 닫음
+        window.location.href = "/cart/"; // 장바구니 페이지로 이동
+    }
 
-        // AJAX를 사용하여 서버로 데이터를 전송
-        fetch('/cart/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (response.ok) {
-                // 장바구니에 성공적으로 담겼을 때 수행할 작업을 추가
-                alert('장바구니에 성공적으로 담겼습니다.');
-            } else {
-                // 오류 처리
-                alert('장바구니에 담기 실패');
+    // 팝업 상태를 쿠키에 저장
+    function setPopupCookie(isOpen) {
+        document.cookie = "popupOpen=" + (isOpen ? "true" : "false");
+    }
+
+    // 쿠키에서 팝업 상태를 읽음
+    function getPopupCookie() {
+        const cookies = document.cookie.split(';');
+        for (const cookie of cookies) {
+            const parts = cookie.trim().split('=');
+            if (parts[0] === "popupOpen") {
+                return parts[1] === "true";
             }
-        });
+        }
+        return false;
+    }
+
+    // 페이지 로드 시 팝업 상태를 확인하고 열거나 닫음
+    window.onload = function () {
+        const isOpen = getPopupCookie();
+        if (isOpen) {
+            closePopup();
+        }
     }
 </script>
 </html>
