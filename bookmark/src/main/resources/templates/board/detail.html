@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>북마크</title>
     <link rel="stylesheet" href="/bootstrap-5.3.0-alpha3-dist/css/bootstrap.min.css">
     <script src="/bootstrap-5.3.0-alpha3-dist/js/bootstrap.min.js"></script>
     <style>
@@ -33,7 +33,7 @@
 
 <div class="container" style="width: 60%;">
     <div style="margin: 100px"></div>
-    <table>
+    <table style="width: 100%">
         <tr>
             <td colspan="2"><h2 th:text="${bookDto.book_name}"></h2></td>
         </tr>
@@ -53,26 +53,23 @@
             <td colspan="2" style="color: #7D7D7D;">가격 : <span th:text="${#numbers.formatInteger(bookDto.price, 3, 'DEFAULT')} + '원'"></span></td>
         </tr>
 
-<!--        <td sec:authorize="hasRole('ROLE_USER')">-->
-<!--            <form id="cart-add" th:action="@{'/cart/' + ${bookId}}" method="post">-->
-<!--                <input type="number" name="quantity" min="1" value="1" />-->
-<!--                <button onclick="addToCart(${bookId})" id="cart-add-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">장바구니에 담기</button>-->
-<!--            </form>-->
-<!--        </td>-->
-
-        <td sec:authorize="hasRole('ROLE_USER')">
-            <form id="cart-add" th:action="@{'/cart/' + ${bookDto.book_id}}" method="post">
-                <input type="number" name="quantity" min="1" value="1" style="width: 50px;" />
-                <button onclick="openPopup()" id="cart-add-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">장바구니에 담기</button>
-            </form>
-        </td>
-
         <tr>
-            <td colspan="2" style="height: 30px"></td>
+            <td sec:authorize="hasRole('ROLE_USER')" style="height-bottom: 25px">
+                <form id="cart-add" th:action="@{'/cart/' + ${bookDto.book_id}}" method="post">
+                    <input type="number" name="quantity" min="1" value="1" style="width: 50px;" />
+                    <button onclick="openPopup()" id="cart-add-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">장바구니에 담기</button>
+                </form>
+            </td>
         </tr>
 
         <tr>
-            <td colspan="2" class="content-cell"><span th:text="${bookDto.book_intro}"></span></td>
+            <td colspan="2">
+                <hr>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" class="content-cell" style="height-top: 25px"><span th:text="${bookDto.book_intro}"></span></td>
         </tr>
     </table>
 </div>
