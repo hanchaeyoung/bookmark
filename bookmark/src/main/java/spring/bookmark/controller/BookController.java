@@ -3,11 +3,13 @@ package spring.bookmark.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import spring.bookmark.dto.BookDto;
+import spring.bookmark.entity.BookEntity;
 import spring.bookmark.service.BookService;
 
 import java.io.IOException;
@@ -35,9 +37,6 @@ public class BookController {
         this.bookDto = bookDto;
     }
 
-    @Value("${upload.dir}")
-    private String uploadDir;
-
     /* 게시글 상세 */
     @GetMapping("/post/{no}")
     public String detail(@PathVariable("no") Long no, Model model) {
@@ -62,42 +61,31 @@ public class BookController {
 //    }
 
     @PostMapping("/post")
-    public String write(BookDto bookDto, Authentication authentication,
-                        @RequestParam("file") MultipartFile file) {
+//    public String write(BookEntity bookEntity, MultipartFile imgFile) throws Exception {
+//        bookService.savePhoto(bookEntity, imgFile);
+//
+//        return "redirect:/";
+//    }
+    public String write(BookEntity bookEntity, Authentication authentication, MultipartFile imgFile) {
+        try {
+            String id = authentication.getName();
+            bookEntity.setId(id);
 
-        String id = authentication.getName();
-        bookDto.setId(id);
+            // 기존 이미지 파일명을 빈 문자열로 초기화
+            String existingImg = "";
 
-        // 파일을 업로드하고 저장
-        if (!file.isEmpty()) {
-            try {
-                // 파일을 저장할 경로 설정
-                 String uploadDir = "/uploads";
-                Path uploadPath = Paths.get(uploadDir);
+            // 이미지를 업로드한 경우, 기존 이미지 파일명을 가져옴
+//            if (bookEntity.getId() != null) {
+//                BookDto existingBoardDto = bookService.getPost(bookEntity.getBook_id());
+//                existingImg = existingBoardDto.getImgName();
+//            }
 
-                // 파일명 생성
-                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                Path filePath = uploadPath.resolve(fileName);
-
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                // 파일 저장
-                Files.copy(file.getInputStream(), filePath);
-
-                // 엔티티에 파일 경로 저장
-                bookDto.setPhoto("uploads/" + fileName); // 파일 이름을 저장
-                // bookDto.setPhoto(fileName); // 파일 이름을 저장
-            } catch (IOException e) {
-                e.printStackTrace();
-                // 파일 업로드 실패 처리
-                return "redirect:/board/write.html?error=upload_error";
-            }
+            bookService.savePhoto(bookEntity, imgFile, existingImg);
+            return "redirect:/";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error_page";
         }
-
-        bookService.savePost(bookDto);
-        return "redirect:/";
     }
 
     /* 게시글 수정 */
@@ -110,12 +98,28 @@ public class BookController {
     }
 
     @PostMapping("/post/edit/{no}")
-    public String update(@PathVariable("no") Long no, BookDto bookDto) {
+//    public String update(@PathVariable("no") Long no, BookDto bookDto) {
+//        bookDto.setBook_id(no);
+//
+//        bookService.savePost(bookDto);
+//
+//        return "redirect:/board/post/{no}";
+//    }
+    public String update(@PathVariable("no") Long no, BookDto bookDto, @RequestParam("imgFile") MultipartFile imgFile) {
         bookDto.setBook_id(no);
 
-        bookService.savePost(bookDto);
+        // 기존 이미지 파일명을 가져옴
+        BookDto existingBookDto = bookService.getPost(no);
+        String existingImg = existingBookDto.getImgName();
 
-        return "redirect:/board/post/{no}";
+        // 이미지 수정 메소드 호출
+        try {
+            bookService.savePhoto(bookDto.toEntity(), imgFile, existingImg);
+            return "redirect:/board/post/" + no;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error_page";
+        }
     }
 
     /* 게시글 삭제 */

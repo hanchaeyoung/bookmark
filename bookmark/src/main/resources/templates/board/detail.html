@@ -34,30 +34,23 @@
 <div class="container" style="width: 60%;">
     <div style="margin: 100px"></div>
     <table style="width: 100%">
-        <tr>
-            <td colspan="2"><h2 th:text="${bookDto.book_name}"></h2></td>
-        </tr>
 
         <tr>
-            <td colspan="2" style="color: #7D7D7D"><span th:inline="text">작성일 : [[${#temporals.format(bookDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="color: #7D7D7D;">작성자 : <span th:text="${bookDto.id}"></span></td>
-        </tr>
+            <td>
+                <img th:src="${bookDto.getImgPath()}" style="width: 80%">
+            </td>
 
-        <tr>
-            <td colspan="2" style="color: #7D7D7D;">재고 : <span th:text="${bookDto.stock} + '권'"></span></td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="color: #7D7D7D;">가격 : <span th:text="${#numbers.formatInteger(bookDto.price, 3, 'DEFAULT')} + '원'"></span></td>
-        </tr>
-
-        <tr>
-            <td sec:authorize="hasRole('ROLE_USER')" style="height-bottom: 25px">
-                <form id="cart-add" th:action="@{'/cart/' + ${bookDto.book_id}}" method="post">
+            <td>
+                <h2 th:text="${bookDto.book_name}"></h2><br>
+                <div style="color: #8C8C8C">
+                    <span th:inline="text">작성일 : [[${#temporals.format(bookDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span><br>
+                    작성자 : <span th:text="${bookDto.id}"></span><br>
+                    재고 : <span th:text="${bookDto.stock} + '권'"></span><br>
+                    가격 : <span th:text="${#numbers.formatInteger(bookDto.price, 3, 'DEFAULT')} + '원'"></span>
+                </div>
+                <form sec:authorize="hasRole('ROLE_USER')" style="height-bottom: 25px" id="cart-add" th:action="@{'/cart/' + ${bookDto.book_id}}" method="post">
                     <input type="number" name="quantity" min="1" value="1" style="width: 50px;" />
-                    <button onclick="openPopup()" id="cart-add-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">장바구니에 담기</button>
+                    <button onclick="openPopup()" id="cart-add-btn" class="btn btn-default" style="background-color: #4DAC27; color: white; flex: 1;">장바구니에 담기</button>
                 </form>
             </td>
         </tr>
@@ -69,14 +62,18 @@
         </tr>
 
         <tr>
-            <td colspan="2" class="content-cell" style="height-top: 25px"><span th:text="${bookDto.book_intro}"></span></td>
+            <td colspan="2" class="content-cell" style="height-top: 25px"><span th:utext="${bookDto.book_intro.replace('\n', '<br>')}"></span></td>
+        </tr>
+
+        <tr>
+            <td style="height: 70px"></td>
         </tr>
     </table>
 </div>
 <div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; text-align: center; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
     <p>장바구니에 담겼습니다.</p>
-    <button onclick="closePopupAndNavigateToCart()">장바구니로 이동</button>
-    <button onclick="closePopup()">계속 쇼핑하기</button>
+    <button onclick="closePopupAndNavigateToCart()" style="background-color: #4DAC27; color: white;">장바구니로 이동</button>
+    <button onclick="closePopup()" style="background-color: #4DAC27; color: white;">계속 쇼핑하기</button>
 </div>
 </body>
 <script>

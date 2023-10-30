@@ -36,7 +36,13 @@ public class BookDto {
     @Column(nullable = false)
     private String id;
 
-    private String photo;
+//    private String photo;
+
+    @Column(columnDefinition = "TEXT")
+    private String imgName; // 이미지 파일명
+
+    @Column(columnDefinition = "TEXT")
+    private String imgPath; // 이미지 조회 경로
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -52,31 +58,37 @@ public class BookDto {
                 .stock(stock)
                 .price(price)
                 .id(id)
-                .photo(photo)
+//                .photo(photo)
+                .imgName(imgName)
+                .imgPath(imgPath)
                 .build();
         return bookEntity;
     }
 
     @Builder
-    public BookDto(Long book_id, String book_name, String book_intro, int stock, int price, String id, String photo, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public BookDto(Long book_id, String book_name, String book_intro, int stock, int price, String id, String imgName, String imgPath, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.book_id = book_id;
         this.book_name = book_name;
         this.book_intro = book_intro;
         this.stock = stock;
         this.price = price;
         this.id = id;
-        this.photo = photo;
+//        this.photo = photo;
+        this.imgName = imgName;
+        this.imgPath = imgPath;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
     }
 
-    public BookDto(String book_name, String book_intro, int stock, int price, String id, String photo) {
+    public BookDto(String book_name, String book_intro, int stock, int price, String id, String imgName, String imgPath) {
         this.book_name = book_name;
         this.id = id;
         this.stock = stock;
         this.price = price;
         this.book_intro = book_intro;
-        this.photo = photo;
+//        this.photo = photo;
+        this.imgName = imgName;
+        this.imgPath = imgPath;
     }
 
 
@@ -88,7 +100,9 @@ public class BookDto {
                 .stock(entity.getStock())
                 .price(entity.getPrice())
                 .id(entity.getId())
-                .photo(entity.getPhoto())
+//                .photo(entity.getPhoto())
+                .imgName(entity.getImgName())
+                .imgPath(entity.getImgPath())
                 .createdDate(entity.getCreatedDate())
                 .modifiedDate(entity.getModifiedDate())
                 .build();

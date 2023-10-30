@@ -24,7 +24,7 @@
             </tr>
 
             <tr th:each="cartItem : ${cartItems}">
-                <td><a th:href="@{'/board/post/' + ${cartItem.book.book_id}}"><span th:text="${cartItem.book.book_name}"></span></a></td>
+                <td><a style="color: black" th:href="@{'/board/post/' + ${cartItem.book.book_id}}"><span style="color: black" th:text="${cartItem.book.book_name}"></span></a></td>
     <!--            <td th:text="${#numbers.formatInteger(cartItem.quantity, 3, 'DEFAULT')}"></td>-->
                 <td th:text="${cartItem.quantity} + 권"></td>
                 <td th:text="${#numbers.formatInteger(cartItem.book.price, 3, 'DEFAULT')} + '원'"></td>
@@ -32,7 +32,7 @@
                 <td>
                     <form th:action="@{'/cart/remove/' + ${cartItem.cartId}}" method="post">
                         <input type="hidden" name="_method" value="delete"/>
-                        <button id="delete-btn" class="btn btn-default" style="background-color: black; color: white; flex: 1;">삭제</button>
+                        <button id="delete-btn" class="btn btn-default" style="background-color: #4DAC27; color: white; flex: 1;">삭제</button>
                     </form>
                 </td>
             </tr>

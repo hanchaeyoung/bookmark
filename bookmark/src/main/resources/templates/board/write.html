@@ -14,44 +14,24 @@
 
 <div class="container">
     <div style="height: 100px"></div>
-        <form action="/board/post" enctype="multipart/form-data" method="post">
+        <form th:action="@{/board/post}" enctype="multipart/form-data" method="post" onsubmit="convertLineBreaks()">
             <input type="text" name="book_name" maxlength="95" style="width: 100%" class="form-control" placeholder="제목을 입력하세요."> <br>
             <input type="text" name="id" th:value="${#authentication.principal.user.id}" style="width: 100%" readonly class="form-control"><br>
             <input type="text" name="stock" maxlength="95" style="width: 100%" class="form-control" placeholder="재고를 입력하세요."> <br>
             <input type="text" name="price" maxlength="95" style="width: 100%" class="form-control" placeholder="가격을 입력하세요."> <br>
-            <textarea name="book_intro" maxlength="65000" style="width: 100%; height: 350px" class="form-control" placeholder="내용을 입력하세요."></textarea><br>
-            <input type="file" id="File" name="files" style="width: 100%" class="form-control"><br>
+            <textarea name="book_intro" maxlength="65000" style="width: 100%; height: 350px" class="form-control" placeholder="내용을 입력하세요." th:utext="${book_intro}"></textarea><br>
+            <input type="file" id="imgFile" name="imgFile" style="width: 100%" class="form-control"><br>
 
-            <input type="submit" value="등록" class="btn btn-default" style="width: 100%; height: 50px; background-color: black; color: white;">
+            <input type="submit" value="등록" class="btn btn-default" style="width: 100%; height: 50px; background-color: #4DAC27; color: white;">
         </form>
 </div>
 </body>
 <script>
-    // 사진 업로드
-    const ButtonElement = document.querySelector('#Button');
-    const FileElement = document.querySelector('#File');
-
-    const getData = async () => {
-        try{
-            const formData = new FormData();
-            formData.append("book_name");
-            formData.append("id");
-            formData.append("stock");
-            formData.append("price");
-            formData.append("book_intro");
-            for(let i = 0; i < FileElement.files.length; i++){
-                formData.append("files", FileElement.files[i]);
-            }
-            const url = 'http://localhost:8080/board/post';
-
-            const response = await axios.post(url, formData);
-            console.log(response)
-        }
-        catch (error){
-            console.error(error);
-        }
+    function convertLineBreaks() {
+        var textarea = document.querySelector('textarea[name="book_intro"]');
+        var book_intro = textarea.value;
+        var convertedContent = book_intro.replace(/\n/g, '<br>');
+        textarea.value = convertedContent;
     }
-
-    ButtonElement.addEventListener('click', getData);
 </script>
 </html>
